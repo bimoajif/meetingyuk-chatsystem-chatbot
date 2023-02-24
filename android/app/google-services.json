@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "782443230253",
+    "project_id": "meetingyuk-chat-backend",
+    "storage_bucket": "meetingyuk-chat-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782443230253:android:4ac038147807dfae9e34a4",
+        "android_client_info": {
+          "package_name": "com.example.chatbot_meetingyuk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782443230253-c999vc2hs49ug3po2e6v4mrds09tp2i6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatbot_meetingyuk",
+            "certificate_hash": "8b5af5ee28521bff7804717de0f9a79a2b6086a2"
+          }
+        },
+        {
+          "client_id": "782443230253-fuhme42k1jadinq03nbqm790vain6ju8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC64vqahRPLdcNm6al2BempwVSzwMBbmGE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782443230253-fuhme42k1jadinq03nbqm790vain6ju8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "782443230253-tqaa41e29e1ti2qjqifm7j7s829o2l8c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatbotMeetingyuk"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
