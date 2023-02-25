@@ -71,7 +71,7 @@ class AuthRepository {
     try {
       String uid = auth.currentUser!.uid;
       String photoUrl =
-          '/Users/bimoajif/Documents/Kuliah/Skripsi/chatbot_meetingyuk/assets/images/placeholder-image-account.png';
+          'https://firebasestorage.googleapis.com/v0/b/meetingyuk-chat-backend.appspot.com/o/profilePic%2Fuser-default-image.png?alt=media&token=9477d3c2-709d-4d03-b53f-0d82322a13fc';
 
       var user = UserModel(
           name: name,

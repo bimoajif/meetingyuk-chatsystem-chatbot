@@ -48,7 +48,7 @@ class ChatScreen extends ConsumerWidget {
             const Expanded(
               child: ChatList()
             ),
-            TextInputField()
+            TextInputField(recieverId: uid,)
           ],
         ),
       ),

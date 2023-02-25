@@ -11,7 +11,7 @@ final selectMerchantRepositoryProvider = Provider(
 
 class SelectMerchantRepository {
   final FirebaseFirestore firestore;
-  final _usersCollection = FirebaseFirestore.instance.collection('merchants');
+  final _usersCollection = FirebaseFirestore.instance.collection('users');
 
   SelectMerchantRepository({required this.firestore});
 
@@ -33,7 +33,7 @@ class SelectMerchantRepository {
 
   void selectMerchant(BuildContext context, String desiredUid) async {
     try {
-      final merchantQuerySnapshot = await firestore.collection('merchants').where('uid', isEqualTo: desiredUid).get();
+      final merchantQuerySnapshot = await firestore.collection('users').where('uid', isEqualTo: desiredUid).get();
 
       if(merchantQuerySnapshot.docs.isEmpty) {
         throw Exception('No User Found!');
