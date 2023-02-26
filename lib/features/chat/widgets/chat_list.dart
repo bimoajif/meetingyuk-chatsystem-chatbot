@@ -1,13 +1,14 @@
 import 'package:chatbot_meetingyuk/common/widgets/loader.dart';
 import 'package:chatbot_meetingyuk/features/chat/controller/chat_controller.dart';
+import 'package:chatbot_meetingyuk/features/chat/widgets/recipient_message_card.dart';
+import 'package:chatbot_meetingyuk/features/chat/widgets/sender_message_card.dart';
 import 'package:chatbot_meetingyuk/models/message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import '../../../widgets/sender_message_card.dart';
-import '../../../widgets/recipient_message_card.dart';
+
 
 class ChatList extends ConsumerStatefulWidget {
   final String recieverId;
@@ -48,6 +49,7 @@ class _ChatListState extends ConsumerState<ChatList> {
               return SenderMessageCard(
                 message: messageData.text,
                 time: timeSent,
+                type: messageData.type,
               );
             }
             return RecipientMessageCard(

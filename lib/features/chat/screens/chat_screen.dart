@@ -20,45 +20,49 @@ class ChatScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-          titleSpacing: -10.0,
-          toolbarHeight: 78.0,
-          backgroundColor: Colors.white,
-          elevation: 1.0,
-          iconTheme: const IconThemeData(color: Colors.black),
-          title: StreamBuilder<UserModel>(
-            stream: ref.read(authControllerProvider).userDataById(uid),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Loader();
-              }
-              final status = snapshot.data!.isOnline ? 'online' : 'offline';
-              return AppBarContent(
-                profilePic: profilePic,
-                name: name,
-                status: status,
-                color: status == 'online' ? Colors.green : Colors.grey,
-              );
-            },
-          )),
-      body: Container(
-        constraints: const BoxConstraints.expand(),
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/chat-background.png'),
-                fit: BoxFit.cover)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-                child: ChatList(
-              recieverId: uid,
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        appBar: AppBar(
+            titleSpacing: -10.0,
+            toolbarHeight: 78.0,
+            backgroundColor: Colors.white,
+            elevation: 1.0,
+            iconTheme: const IconThemeData(color: Colors.black),
+            title: StreamBuilder<UserModel>(
+              stream: ref.read(authControllerProvider).userDataById(uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Loader();
+                }
+                final status = snapshot.data!.isOnline ? 'online' : 'offline';
+                return AppBarContent(
+                  profilePic: profilePic,
+                  name: name,
+                  status: status,
+                  color: status == 'online' ? Colors.green : Colors.grey,
+                );
+              },
             )),
-            TextInputField(
-              recieverId: uid,
-            )
-          ],
+        body: Container(
+          constraints: const BoxConstraints.expand(),
+          decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/chat-background.png'),
+                  fit: BoxFit.cover)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: ChatList(
+                  recieverId: uid,
+                ),
+              ),
+              TextInputField(
+                receiverId: uid,
+              )
+            ],
+          ),
         ),
       ),
     );

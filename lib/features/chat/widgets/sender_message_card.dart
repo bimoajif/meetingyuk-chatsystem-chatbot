@@ -1,13 +1,17 @@
+import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
+import 'package:chatbot_meetingyuk/features/chat/widgets/display_message.dart';
 import 'package:flutter/material.dart';
 
 class SenderMessageCard extends StatelessWidget {
   final String message;
   final String time;
+  final MessageEnum type;
 
   const SenderMessageCard({
     super.key,
     required this.message,
     required this.time,
+    required this.type,
   });
 
   @override
@@ -29,17 +33,16 @@ class SenderMessageCard extends StatelessWidget {
           child: Stack(
             children: [
               Padding(
-                padding: const EdgeInsets.only(
-                  left: 15,
-                  right: 35,
-                  top: 10,
-                  bottom: 25,
-                ),
-                child: Text(
-                  message,
-                  style: const TextStyle(fontSize: 16, color: Colors.white),
-                ),
-              ),
+                  padding: const EdgeInsets.only(
+                    left: 15,
+                    right: 35,
+                    top: 10,
+                    bottom: 25,
+                  ),
+                  child: DisplayMessage(
+                    message: message,
+                    type: type,
+                  )),
               Positioned(
                 bottom: 4,
                 right: 10,
