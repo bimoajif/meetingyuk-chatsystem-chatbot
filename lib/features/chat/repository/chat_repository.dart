@@ -207,7 +207,7 @@ class ChatRepository {
       var messageId = const Uuid().v1();
 
       String imageUrl =
-          await ref.read(commonFirebaseStorageRepository).storeFileToFirebase(
+          await ref.read(commonFirebaseStorageRepositoryProvider).storeFileToFirebase(
                 'chat/${messageEnum.type}/${senderUserData.uid}/$receiverId/$messageId',
                 file,
               );
@@ -235,7 +235,7 @@ class ChatRepository {
         default:
           contactMessage = 'GIF';
       }
-      
+
       _saveDataToContactsSubcollection(
         senderUserData,
         receiverUserData,
@@ -246,7 +246,7 @@ class ChatRepository {
 
       _saveMessageToMessageSubcollection(
         receiverId: receiverId,
-        text: contactMessage,
+        text: imageUrl,
         timeSent: timeSent,
         messageId: messageId,
         username: senderUserData.name,

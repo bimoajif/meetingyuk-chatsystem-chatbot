@@ -22,27 +22,42 @@ class SenderMessageCard extends StatelessWidget {
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 45),
         child: Card(
+          clipBehavior: Clip.hardEdge,
           elevation: 0,
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15))),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(15),
+              topRight: Radius.circular(15),
+              bottomLeft: Radius.circular(15),
+            ),
+          ),
           color: const Color(0xFF3880A4),
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          margin: const EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 5,
+          ),
           child: Stack(
             children: [
               Padding(
-                  padding: const EdgeInsets.only(
-                    left: 15,
-                    right: 35,
-                    top: 10,
-                    bottom: 25,
-                  ),
-                  child: DisplayMessage(
-                    message: message,
-                    type: type,
-                  )),
+                padding: type == MessageEnum.TEXT
+                    ? const EdgeInsets.only(
+                        left: 15,
+                        right: 35,
+                        top: 10,
+                        bottom: 25,
+                      )
+                    : const EdgeInsets.only(
+                        top: 0,
+                        right: 0,
+                        left: 0,
+                        bottom: 30,
+                      ),
+                child: DisplayMessage(
+                  message: message,
+                  type: type,
+                  isSender: true,
+                ),
+              ),
               Positioned(
                 bottom: 4,
                 right: 10,

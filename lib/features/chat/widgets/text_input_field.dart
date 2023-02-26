@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chatbot_meetingyuk/colors.dart';
 import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
@@ -54,6 +53,13 @@ class _TextInputFieldState extends ConsumerState<TextInputField> {
     }
   }
 
+  void selectPhoto() async {
+    File? image = await pickImageFromGallery(context);
+    if (image != null) {
+      sendFileMessage(image, MessageEnum.IMAGE);
+    }
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -78,58 +84,75 @@ class _TextInputFieldState extends ConsumerState<TextInputField> {
       },
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
-          border: InputBorder.none,
-          // constraints: const BoxConstraints.expand(height: 90),
-          contentPadding: const EdgeInsets.only(top: 30, left: 24),
-          filled: true,
-          fillColor: Colors.white,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-            child: SpeedDial(
-              switchLabelPosition: true,
-              icon: Icons.attach_file,
-              activeIcon: Icons.clear,
-              animationCurve: Curves.easeOut,
-              overlayColor: Colors.black,
-              overlayOpacity: 0.3,
-              spacing: 12,
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              children: [
-                SpeedDialChild(
-                  child: const Icon(
-                    Icons.upload_file,
-                  ),
-                  label: 'attach file'
+        border: InputBorder.none,
+        // constraints: const BoxConstraints.expand(height: 90),
+        contentPadding: const EdgeInsets.only(
+          top: 25,
+          left: 24,
+        ),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(
+            top: 0.0,
+            left: 10.0,
+          ),
+          child: SpeedDial(
+            switchLabelPosition: true,
+            icon: Icons.attach_file,
+            activeIcon: Icons.clear,
+            animationCurve: Curves.easeOut,
+            overlayColor: Colors.black,
+            overlayOpacity: 0.3,
+            spacing: 12,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            childMargin: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 0.0,
+            ),
+            children: [
+              SpeedDialChild(
+                child: const Icon(
+                  Icons.camera_alt,
                 ),
-                SpeedDialChild(
-                  onTap: selectImage,
-                  child: const Icon(
-                    Icons.image,
-                  ),
-                  label: 'attach image'
-                )
-              ],
-              // color: primaryColor,
+                label: 'take photo',
+              ),
+              SpeedDialChild(
+                onTap: selectImage,
+                child: const Icon(
+                  Icons.image,
+                ),
+                label: 'attach image',
+              )
+            ],
+            // color: primaryColor,
+          ),
+        ),
+        hintText: 'Tulis Pesan Anda...',
+        hintStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 14,
+        ),
+        suffixIcon: Container(
+          height: 70,
+          width: 70,
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(0),
+            ),
+            color: primaryColor,
+          ),
+          child: GestureDetector(
+            onTap: sendTextMessage,
+            child: Icon(
+              isShowSendButton ? Icons.send : Icons.mic,
+              color: Colors.white,
+              size: 30,
             ),
           ),
-          hintText: 'Tulis Pesan Anda...',
-          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-          suffixIcon: Container(
-            height: 70,
-            width: 70,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(40)),
-                color: primaryColor),
-            child: GestureDetector(
-              onTap: sendTextMessage,
-              child: Icon(
-                isShowSendButton ? Icons.send : Icons.mic,
-                color: Colors.white,
-                size: 30,
-              ),
-            ),
-          )),
+        ),
+      ),
     );
   }
 }

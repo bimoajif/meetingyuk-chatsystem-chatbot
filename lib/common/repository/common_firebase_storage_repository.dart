@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-final commonFirebaseStorageRepository = Provider((ref) =>
+final commonFirebaseStorageRepositoryProvider = Provider((ref) =>
     CommonFirebaseStorageRepository(firebaseStorage: FirebaseStorage.instance));
 
 class CommonFirebaseStorageRepository {
