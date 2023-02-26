@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/otp_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/user_information_screen.dart';
@@ -20,9 +19,10 @@ class AuthRepository {
   AuthRepository({required this.auth, required this.firestore});
 
   Future<UserModel?> getCurrentUserData() async {
-    var userData = await firestore.collection('users').doc(auth.currentUser?.uid).get();
+    var userData =
+        await firestore.collection('users').doc(auth.currentUser?.uid).get();
     UserModel? user;
-    if(userData.data() != null) {
+    if (userData.data() != null) {
       user = UserModel.fromMap(userData.data()!);
     }
     return user;
@@ -78,8 +78,7 @@ class AuthRepository {
           uid: uid,
           profilePic: photoUrl,
           isOnline: true,
-          phoneNumber: auth.currentUser!.phoneNumber!
-      );
+          phoneNumber: auth.currentUser!.phoneNumber!);
 
       await firestore.collection('users').doc(uid).set(user.toMap());
     } catch (e) {
@@ -87,11 +86,17 @@ class AuthRepository {
     }
   }
 
-  // Stream<UserModel> AllUserData() {
-  //   return firestore.collection('users').doc().snapshots().map((event) => UserModel.fromMap(event.data()!),);
-  // }
+  Stream<UserModel> userData(String userId) {
+    return firestore.collection('users').doc(userId).snapshots().map(
+          (event) => UserModel.fromMap(
+            event.data()!,
+          ),
+        );
+  }
 
-  Stream<UserModel> UserData(String userId) {
-    return firestore.collection('merchants').doc(userId).snapshots().map((event) => UserModel.fromMap(event.data()!));
+  void setUserState(bool isOnline) async {
+    await firestore.collection('users').doc(auth.currentUser!.uid).update({
+      'isOnline': isOnline,
+    });
   }
 }

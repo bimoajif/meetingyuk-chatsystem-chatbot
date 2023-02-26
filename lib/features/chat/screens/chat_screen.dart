@@ -1,3 +1,4 @@
+import 'package:chatbot_meetingyuk/common/widgets/loader.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:chatbot_meetingyuk/features/chat/widgets/app_bar_content.dart';
 import 'package:chatbot_meetingyuk/features/chat/widgets/text_input_field.dart';
@@ -29,18 +30,16 @@ class ChatScreen extends ConsumerWidget {
           title: StreamBuilder<UserModel>(
             stream: ref.read(authControllerProvider).userDataById(uid),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return AppBarContent(
-                    profilePic: profilePic,
-                    name: name,
-                    status: 'online',
-                    color: Colors.green);
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Loader();
               }
+              final status = snapshot.data!.isOnline ? 'online' : 'offline';
               return AppBarContent(
-                  profilePic: profilePic,
-                  name: name,
-                  status: 'offline',
-                  color: Colors.grey);
+                profilePic: profilePic,
+                name: name,
+                status: status,
+                color: status == 'online' ? Colors.green : Colors.grey,
+              );
             },
           )),
       body: Container(

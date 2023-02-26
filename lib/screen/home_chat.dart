@@ -1,18 +1,51 @@
+import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merchant_screen.dart';
 import 'package:chatbot_meetingyuk/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import '../features/chat/widgets/contact_list.dart';
 
-class HomeChat extends StatefulWidget {
+class HomeChat extends ConsumerStatefulWidget {
   static const String routeName = '/home-chat';
   const HomeChat({super.key});
 
   @override
-  State<HomeChat> createState() => _HomeChatState();
+  ConsumerState<HomeChat> createState() => _HomeChatState();
 }
 
-class _HomeChatState extends State<HomeChat> {
+class _HomeChatState extends ConsumerState<HomeChat>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        ref.read(authControllerProvider).setUserState(true);
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.paused:
+        ref.read(authControllerProvider).setUserState(false);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +55,9 @@ class _HomeChatState extends State<HomeChat> {
         centerTitle: false,
         title: Column(
           children: [
-            const SizedBox(height: 24,),
+            const SizedBox(
+              height: 24,
+            ),
             Image.asset(
               'assets/images/meetingyuk-logo.png',
               height: 28,
@@ -34,31 +69,22 @@ class _HomeChatState extends State<HomeChat> {
         elevation: 1,
         backgroundColor: Colors.white,
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 30.0, left: 24.0, bottom: 8.0),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: (){},
-                  icon: const Icon(Icons.arrow_back_ios),
-                ),
-                const Text(
-                  'Pesan',
-                  style: TextStyle(
-                    fontSize: 36,
-                    fontWeight: FontWeight.w800
-                  ),
-                ),
-              ]
+      body: Column(children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0, left: 24.0, bottom: 8.0),
+          child: Row(children: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.arrow_back_ios),
             ),
-          ),
-          const Expanded(
-            child: ContactList()
-          )
-        ]
-      ),
+            const Text(
+              'Pesan',
+              style: TextStyle(fontSize: 36, fontWeight: FontWeight.w800),
+            ),
+          ]),
+        ),
+        const Expanded(child: ContactList())
+      ]),
       floatingActionButton: SpeedDial(
         buttonSize: const Size(72.0, 72.0),
         childrenButtonSize: const Size(72.0, 72.0),
@@ -71,32 +97,23 @@ class _HomeChatState extends State<HomeChat> {
         foregroundColor: Colors.white,
         activeBackgroundColor: Colors.black,
         spaceBetweenChildren: 15,
-        children:[
+        children: [
           SpeedDialChild(
-            child: const Icon(
-              Icons.add,
-              size: 32.0,
-            ),
-            label: 'Start New Chat',
-            labelStyle: const TextStyle(
-              fontSize: 18.0
-            ),
-            onTap: () {
-              print('icon 2 pressed');
-              Navigator.pushNamed(context, SelectMerchantScreen.routeName);
-            }
-          ),
+              child: const Icon(
+                Icons.add,
+                size: 32.0,
+              ),
+              label: 'Start New Chat',
+              labelStyle: const TextStyle(fontSize: 18.0),
+              onTap: () {
+                print('icon 2 pressed');
+                Navigator.pushNamed(context, SelectMerchantScreen.routeName);
+              }),
           SpeedDialChild(
-            child: const Icon(
-              CustomIcon.chatbot_icon,
-              size: 32.0
-            ),
-            label: 'Chatbot',
-            labelStyle: const TextStyle(
-              fontSize: 18.0
-            ),
-            onTap: () => print('icon 1 pressed')
-          )
+              child: const Icon(CustomIcon.chatbot_icon, size: 32.0),
+              label: 'Chatbot',
+              labelStyle: const TextStyle(fontSize: 18.0),
+              onTap: () => print('icon 1 pressed'))
         ],
       ),
     );
