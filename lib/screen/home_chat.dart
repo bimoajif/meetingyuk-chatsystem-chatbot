@@ -2,7 +2,7 @@ import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merch
 import 'package:chatbot_meetingyuk/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import '../widgets/contact_list.dart';
+import '../features/chat/widgets/contact_list.dart';
 
 class HomeChat extends StatefulWidget {
   static const String routeName = '/home-chat';

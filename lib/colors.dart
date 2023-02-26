@@ -1,10 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/src/widgets/framework.dart';
-
-import 'package:flutter/src/widgets/container.dart';
-
 const primaryColor = Color(0xFF3880A4);
 const textColor = Color.fromRGBO(241, 241, 242, 1);
 const appBarColor = Color.fromARGB(255, 255, 255, 255);

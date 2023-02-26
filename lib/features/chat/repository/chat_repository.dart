@@ -1,6 +1,5 @@
 import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
-import 'package:chatbot_meetingyuk/info.dart';
 import 'package:chatbot_meetingyuk/models/chat_contact.dart';
 import 'package:chatbot_meetingyuk/models/message.dart';
 import 'package:chatbot_meetingyuk/models/user_model.dart';
@@ -50,6 +49,23 @@ class ChatRepository {
         );
       }
       return contacts;
+    });
+  }
+
+  Stream<List<Message>> getChatStream(String recieverId) {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .doc(recieverId)
+        .collection('messages').orderBy('timeSent')
+        .snapshots()
+        .map((event) {
+      List<Message> messages = [];
+      for (var document in event.docs) {
+        messages.add(Message.fromMap(document.data()));
+      }
+      return messages;
     });
   }
 
