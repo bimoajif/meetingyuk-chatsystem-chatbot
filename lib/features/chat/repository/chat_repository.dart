@@ -1,5 +1,6 @@
 import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
+import 'package:chatbot_meetingyuk/info.dart';
 import 'package:chatbot_meetingyuk/models/chat_contact.dart';
 import 'package:chatbot_meetingyuk/models/message.dart';
 import 'package:chatbot_meetingyuk/models/user_model.dart';
@@ -22,6 +23,35 @@ class ChatRepository {
     required this.firestore,
     required this.auth,
   });
+
+  Stream<List<ChatContact>> getChatContact() {
+    return firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .collection('chats')
+        .snapshots()
+        .asyncMap((event) async {
+      List<ChatContact> contacts = [];
+      for (var document in event.docs) {
+        var chatContact = ChatContact.fromMap(document.data());
+        var userData = await firestore
+            .collection('users')
+            .doc(chatContact.contactId)
+            .get();
+        var user = UserModel.fromMap(userData.data()!);
+        contacts.add(
+          ChatContact(
+            name: user.name,
+            profilePic: user.profilePic,
+            contactId: user.uid,
+            timeSent: chatContact.timeSent,
+            lastMessage: chatContact.lastMessage,
+          ),
+        );
+      }
+      return contacts;
+    });
+  }
 
   void _saveDataToContactsSubcollection(
     UserModel senderUserData,
