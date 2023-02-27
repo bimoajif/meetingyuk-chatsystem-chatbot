@@ -38,11 +38,14 @@ class _HomeChatState extends ConsumerState<HomeChat>
       case AppLifecycleState.resumed:
         ref.read(authControllerProvider).setUserState(true);
         break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.detached:
-      case AppLifecycleState.paused:
+      default:
         ref.read(authControllerProvider).setUserState(false);
         break;
+      // case AppLifecycleState.inactive:
+      // case AppLifecycleState.detached:
+      // case AppLifecycleState.paused:
+      //   ref.read(authControllerProvider).setUserState(false);
+      //   break;
     }
   }
 
