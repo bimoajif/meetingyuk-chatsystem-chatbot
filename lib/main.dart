@@ -40,22 +40,29 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(primarySwatch: meetingyukColor, fontFamily: 'Figtree'),
-        // home: const ChatScreen(),
-        onGenerateRoute: (settings) => generateRoute(settings),
-        home: ref.watch(userDataAuthProvider).when(
-              data: (user) {
-                if (user == null) {
-                  return const LoginScreen();
-                }
-                return const HomeChat();
-              },
-              error: (err, trace) {
-                return ErrorScreen(error: err.toString());
-              },
-              loading: () => const SplashScreen(loading: false,),
-            ));
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: meetingyukColor,
+        fontFamily: 'Figtree',
+      ),
+      // home: const ChatScreen(),
+      onGenerateRoute: (settings) => generateRoute(settings),
+      color: Colors.white,
+      home: ref.watch(userDataAuthProvider).when(
+            data: (user) {
+              if (user == null) {
+                return const LoginScreen();
+              }
+              return const HomeChat();
+            },
+            error: (err, trace) {
+              return ErrorScreen(error: err.toString());
+            },
+            loading: () => const SplashScreen(
+              loading: false,
+            ),
+          ),
+    );
   }
 }
