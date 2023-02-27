@@ -4,8 +4,6 @@ import 'package:chatbot_meetingyuk/common/widgets/splash_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:chatbot_meetingyuk/screen/home_chat.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserInformationScreen extends ConsumerStatefulWidget {
