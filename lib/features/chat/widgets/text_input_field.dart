@@ -53,8 +53,8 @@ class _TextInputFieldState extends ConsumerState<TextInputField> {
     }
   }
 
-  void selectPhoto() async {
-    File? image = await pickImageFromGallery(context);
+  void takePhoto() async {
+    File? image = await takePhotoFromCamera(context);
     if (image != null) {
       sendFileMessage(image, MessageEnum.IMAGE);
     }
@@ -113,6 +113,7 @@ class _TextInputFieldState extends ConsumerState<TextInputField> {
             ),
             children: [
               SpeedDialChild(
+                onTap: takePhoto,
                 child: const Icon(
                   Icons.camera_alt,
                 ),

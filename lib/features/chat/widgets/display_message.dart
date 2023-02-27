@@ -1,8 +1,7 @@
-// import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:io';
+import 'package:chatbot_meetingyuk/colors.dart';
 import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image/network.dart';
 import 'package:dio/dio.dart';
 
 class DisplayMessage extends StatelessWidget {
@@ -40,8 +39,11 @@ class DisplayMessage extends StatelessWidget {
                   'Error loading image',
                 );
               } else {
-                return CircularProgressIndicator(
-                  color: isSender == true ? Colors.white : Colors.black,
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: CircularProgressIndicator(
+                    color: isSender == true ? Colors.white : primaryColor,
+                  ),
                 );
               }
             },

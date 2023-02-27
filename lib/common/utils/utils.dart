@@ -25,7 +25,7 @@ Future<File?> pickImageFromGallery(BuildContext context) async {
   return image;
 }
 
-Future<File?> takePhoto(BuildContext context) async {
+Future<File?> takePhotoFromCamera(BuildContext context) async {
   File? image;
   try {
     final pickedImage =
