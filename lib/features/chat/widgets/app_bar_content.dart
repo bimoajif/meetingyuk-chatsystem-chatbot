@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class AppBarContent extends StatelessWidget {
   final String profilePic;

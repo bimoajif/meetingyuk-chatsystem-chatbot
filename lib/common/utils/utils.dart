@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:logger/logger.dart';
 
 void showSnackbar({required BuildContext context, required String content}){
   ScaffoldMessenger.of(context).showSnackBar(
@@ -39,3 +40,5 @@ Future<File?> takePhotoFromCamera(BuildContext context) async {
   }
   return image;
 }
+
+var logger = Logger();

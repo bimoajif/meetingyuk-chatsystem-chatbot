@@ -23,6 +23,7 @@ class _ChatListState extends ConsumerState<ChatList> {
 
   @override
   void dispose() {
+    // ignore: todo
     // TODO: implement dispose
     super.dispose();
     _messageController.dispose();

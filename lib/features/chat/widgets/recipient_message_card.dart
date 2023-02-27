@@ -21,30 +21,31 @@ class RecipientMessageCard extends StatelessWidget {
       child: ConstrainedBox(
         constraints:
             BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 45),
-        child: Card(
-          clipBehavior: Clip.hardEdge,
-          elevation: 1,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomRight: Radius.circular(15),
-            ),
-          ),
-          color: Colors.white,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 5,
-          ),
-          child: Stack(
-            children: [
-              Padding(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Card(
+              clipBehavior: Clip.hardEdge,
+              elevation: 1,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
+              ),
+              color: Colors.white,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 5,
+              ),
+              child: Padding(
                 padding: type == MessageEnum.TEXT
                     ? const EdgeInsets.only(
                         left: 15,
-                        right: 35,
+                        right: 15,
                         top: 10,
-                        bottom: 25,
+                        bottom: 10,
                       )
                     : const EdgeInsets.only(
                         top: 0,
@@ -58,23 +59,21 @@ class RecipientMessageCard extends StatelessWidget {
                   isSender: false,
                 ),
               ),
-              Positioned(
-                bottom: 4,
-                right: 15,
-                child: Row(
-                  children: [
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Text(
+                time,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.black54,
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+          ],
         ),
       ),
     );

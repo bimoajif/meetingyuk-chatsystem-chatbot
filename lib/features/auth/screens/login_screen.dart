@@ -17,6 +17,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final phoneController = TextEditingController();
 
     @override
+    // ignore: unused_element
     void dispose() {
       super.dispose();
       phoneController.dispose();

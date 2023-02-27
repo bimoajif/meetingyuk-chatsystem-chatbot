@@ -52,7 +52,9 @@ class AuthRepository {
       required String userOTP}) async {
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: userOTP);
+        verificationId: verificationId,
+        smsCode: userOTP,
+      );
       await auth.signInWithCredential(credential);
       Navigator.pushNamedAndRemoveUntil(
           context, UserInformationScreen.routeName, (route) => false);
@@ -61,11 +63,12 @@ class AuthRepository {
     }
   }
 
-  void saveUserDataToFirebase(
-      {required String name,
-      required File? profilePic,
-      required ProviderRef ref,
-      required BuildContext context}) async {
+  void saveUserDataToFirebase({
+    required String name,
+    required File? profilePic,
+    required ProviderRef ref,
+    required BuildContext context,
+  }) async {
     try {
       String uid = auth.currentUser!.uid;
       String photoUrl =

@@ -36,13 +36,18 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushAndRemoveUntil(
+    Timer(
+      const Duration(seconds: 3),
+      () {
+        Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => const HomeChat()),
-          (route) => false);
-    });
-
+          MaterialPageRoute(
+            builder: (context) => const HomeChat(),
+          ),
+          (route) => false,
+        );
+      },
+    );
     return const SplashScreen(
       loading: true,
     );

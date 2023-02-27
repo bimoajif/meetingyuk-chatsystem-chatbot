@@ -1,3 +1,4 @@
+import 'package:chatbot_meetingyuk/common/utils/utils.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merchant_screen.dart';
 import 'package:chatbot_meetingyuk/my_flutter_app_icons.dart';
@@ -18,6 +19,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
     with WidgetsBindingObserver {
   @override
   void initState() {
+    // ignore: todo
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
@@ -25,6 +27,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
 
   @override
   void dispose() {
+    // ignore: todo
     // TODO: implement dispose
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
@@ -32,6 +35,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    // ignore: todo
     // TODO: implement didChangeAppLifecycleState
     super.didChangeAppLifecycleState(state);
     switch (state) {
@@ -94,7 +98,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
         overlayColor: Colors.black,
         overlayOpacity: 0.8,
         elevation: 0,
-        icon: CustomIcon.chatbot_icon,
+        icon: CustomIcon.chatbotIcon,
         activeIcon: Icons.clear,
         backgroundColor: const Color(0xFF5ABCD0),
         foregroundColor: Colors.white,
@@ -109,14 +113,14 @@ class _HomeChatState extends ConsumerState<HomeChat>
               label: 'Start New Chat',
               labelStyle: const TextStyle(fontSize: 18.0),
               onTap: () {
-                print('icon 2 pressed');
+                logger.v('icon 2 pressed');
                 Navigator.pushNamed(context, SelectMerchantScreen.routeName);
               }),
           SpeedDialChild(
-              child: const Icon(CustomIcon.chatbot_icon, size: 32.0),
+              child: const Icon(CustomIcon.chatbotIcon, size: 32.0),
               label: 'Chatbot',
               labelStyle: const TextStyle(fontSize: 18.0),
-              onTap: () => print('icon 1 pressed'))
+              onTap: () => logger.v('icon 1 pressed'))
         ],
       ),
     );

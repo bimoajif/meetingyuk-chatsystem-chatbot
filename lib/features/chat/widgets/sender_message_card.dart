@@ -19,32 +19,34 @@ class SenderMessageCard extends StatelessWidget {
     return Align(
       alignment: Alignment.centerRight,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width - 45),
-        child: Card(
-          clipBehavior: Clip.hardEdge,
-          elevation: 0,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomLeft: Radius.circular(15),
-            ),
-          ),
-          color: const Color(0xFF3880A4),
-          margin: const EdgeInsets.symmetric(
-            horizontal: 15,
-            vertical: 5,
-          ),
-          child: Stack(
-            children: [
-              Padding(
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width - 45,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Card(
+              clipBehavior: Clip.hardEdge,
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
+              ),
+              color: const Color(0xFF3880A4),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 0,
+              ),
+              child: Padding(
                 padding: type == MessageEnum.TEXT
                     ? const EdgeInsets.only(
                         left: 15,
-                        right: 35,
+                        right: 15,
                         top: 10,
-                        bottom: 25,
+                        bottom: 10,
                       )
                     : const EdgeInsets.only(
                         top: 0,
@@ -58,31 +60,34 @@ class SenderMessageCard extends StatelessWidget {
                   isSender: true,
                 ),
               ),
-              Positioned(
-                bottom: 4,
-                right: 10,
-                child: Row(
-                  children: [
-                    Text(
-                      time,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: Colors.white60,
-                      ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    '',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
                     ),
-                    const SizedBox(
-                      width: 5,
+                  ),
+                  Text(
+                    time,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.black54,
                     ),
-                    const Icon(
-                      Icons.done_all,
-                      size: 20,
-                      color: Colors.white60,
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+          ],
         ),
       ),
     );

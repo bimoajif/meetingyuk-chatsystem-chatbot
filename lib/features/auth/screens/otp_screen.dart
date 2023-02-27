@@ -1,3 +1,4 @@
+import 'package:chatbot_meetingyuk/common/utils/utils.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,10 +38,10 @@ class OTPScreen extends ConsumerWidget {
                 keyboardType: TextInputType.number,
                 onChanged: (val) {
                   if(val.length == 6) {
-                    print('verifying otp');
+                    logger.v('verifying otp');
                     verifyOTP(ref, context, val.trim());
                   }
-                  print('this function was run');
+                  logger.v('this function was run');
                 },
               ),
             )
