@@ -1,16 +1,47 @@
-# chatbot_meetingyuk
+# Flutter Chatbot App
 
-A new Flutter project.
+This is a sample Flutter chatbot app that uses dialogflow to create a conversational interface. 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+To get started with this app, you'll need to have the Flutter SDK installed on your local machine. You can find installation instructions on the [Flutter website](https://flutter.dev/docs/get-started/install).
 
-A few resources to get you started if this is your first Flutter project:
+clone this repo by following this command:
+```
+git clone https://github.com/bimoajif/meetingyuk-chatsystem-chatbot.git
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This app has the following dependencies:
+
+- [firebase_auth](https://pub.dev/packages/firebase_auth) for user authentication
+- [firebase_storage](https://pub.dev/packages/firebase_storage) for cloud storage
+- [uuid](https://pub.dev/packages/uuid) for generating unique IDs
+- [intl](https://pub.dev/packages/intl) for internationalization
+- [image_picker](https://pub.dev/packages/image_picker) for selecting images
+- [flutter_image](https://pub.dev/packages/flutter_image) for image manipulation
+- [dio](https://pub.dev/packages/dio) for network requests
+- [logger](https://pub.dev/packages/logger) for log debugging
+
+You can install these dependencies by running `flutter pub get` in your terminal in the project's root directory.
+
+### Configuration
+
+Before you start the app, you'll need to configure it with your Dialogflow project ID and credentials. 
+
+1. Create a Google Cloud project and enable the Dialogflow API.
+2. Create a Dialogflow agent and configure intents and entities as necessary.
+3. Create a service account key in JSON format and download it.
+4. Save the JSON file in the `android/app/` directory of your project.
+5. Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the path of your JSON file. 
+
+### Running the app
+
+To run the app on your local machine, connect your device or start a virtual device and run `flutter run` in your terminal in the project's root directory.
+
+## Contributing
+
+Contributions are welcome! Please submit any issues or pull requests on the repository.
+
+## License
