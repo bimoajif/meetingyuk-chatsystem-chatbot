@@ -34,12 +34,20 @@ class SelectMerchantScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final merchants = merchantList[index];
                     return InkWell(
-                      onTap: () => selectMerchant(ref, context, merchants.uid),
+                      onTap: () => selectMerchant(
+                        ref,
+                        context,
+                        merchants.uid,
+                      ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 0.0),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 10.0,
+                          horizontal: 0.0,
+                        ),
                         child: ListTile(
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 24.0),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 24.0,
+                          ),
                           leading: SizedBox(
                             height: 50,
                             width: 50,

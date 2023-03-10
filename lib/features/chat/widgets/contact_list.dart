@@ -28,12 +28,15 @@ class ContactList extends ConsumerWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, ChatScreen.routeName,
-                          arguments: {
-                            'profilePic': chatContactData.profilePic,
-                            'name': chatContactData.name,
-                            'uid': chatContactData.contactId,
-                          });
+                      Navigator.pushNamed(
+                        context,
+                        ChatScreen.routeName,
+                        arguments: {
+                          'profilePic': chatContactData.profilePic,
+                          'name': chatContactData.name,
+                          'uid': chatContactData.contactId,
+                        },
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -66,39 +69,6 @@ class ContactList extends ConsumerWidget {
                             fontSize: 16,
                           ),
                         ),
-                        // trailing: Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.end,
-                        //   children: [
-                        //     Text(
-                        //       DateFormat('Hm')
-                        //           .format(chatContactData.timeSent),
-                        //       style: const TextStyle(
-                        //           color: timestampHomeColor),
-                        //     ),
-                        //     const SizedBox(
-                        //       height: 4,
-                        //     ),
-                        //     SizedBox(
-                        //       child: DecoratedBox(
-                        //         decoration: BoxDecoration(
-                        //             color: notificationColor,
-                        //             borderRadius:
-                        //                 BorderRadius.circular(50.0)),
-                        //         child: Padding(
-                        //           padding: const EdgeInsets.symmetric(
-                        //               vertical: 5.0, horizontal: 8.0),
-                        //           child: Text(
-                        //             '999+',
-                        //             style: TextStyle(
-                        //                 color: Colors.white,
-                        //                 fontWeight: FontWeight.w700,
-                        //                 fontStyle: FontStyle.italic),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
                       ),
                     ),
                   )

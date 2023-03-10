@@ -76,22 +76,33 @@ class _HomeChatState extends ConsumerState<HomeChat>
         elevation: 1,
         backgroundColor: Colors.white,
       ),
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 30.0, left: 24.0, bottom: 8.0),
-          child: Row(children: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.arrow_back_ios),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 30.0,
+              left: 24.0,
+              bottom: 8.0,
             ),
-            const Text(
-              'Pesan',
-              style: TextStyle(fontSize: 36, fontWeight: FontWeight.w800),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.arrow_back_ios),
+                ),
+                const Text(
+                  'Pesan',
+                  style: TextStyle(
+                    fontSize: 36,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
             ),
-          ]),
-        ),
-        const Expanded(child: ContactList())
-      ]),
+          ),
+          const Expanded(child: ContactList())
+        ],
+      ),
       floatingActionButton: SpeedDial(
         buttonSize: const Size(72.0, 72.0),
         childrenButtonSize: const Size(72.0, 72.0),
@@ -106,21 +117,28 @@ class _HomeChatState extends ConsumerState<HomeChat>
         spaceBetweenChildren: 15,
         children: [
           SpeedDialChild(
-              child: const Icon(
-                Icons.add,
-                size: 32.0,
-              ),
-              label: 'Start New Chat',
-              labelStyle: const TextStyle(fontSize: 18.0),
-              onTap: () {
-                logger.v('icon 2 pressed');
-                Navigator.pushNamed(context, SelectMerchantScreen.routeName);
-              }),
+            child: const Icon(
+              Icons.add,
+              size: 32.0,
+            ),
+            label: 'Start New Chat',
+            labelStyle: const TextStyle(fontSize: 18.0),
+            onTap: () {
+              logger.v('icon 2 pressed');
+              Navigator.pushNamed(context, SelectMerchantScreen.routeName);
+            },
+          ),
           SpeedDialChild(
-              child: const Icon(CustomIcon.chatbotIcon, size: 32.0),
-              label: 'Chatbot',
-              labelStyle: const TextStyle(fontSize: 18.0),
-              onTap: () => logger.v('icon 1 pressed'))
+            child: const Icon(
+              CustomIcon.chatbotIcon,
+              size: 32.0,
+            ),
+            label: 'Chatbot',
+            labelStyle: const TextStyle(
+              fontSize: 18.0,
+            ),
+            onTap: () => logger.v('icon 1 pressed'),
+          )
         ],
       ),
     );
