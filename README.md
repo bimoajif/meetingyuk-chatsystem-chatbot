@@ -1,6 +1,6 @@
-# Flutter Chatbot App
+# Flutter Chat System and Chatbot App
 
-This is a sample Flutter chatbot app that uses dialogflow to create a conversational interface. 
+This is a sample chat system and chatbot app that uses Flutter to create a conversational interface. 
 
 ## Getting Started
 
