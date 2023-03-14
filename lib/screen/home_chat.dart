@@ -91,7 +91,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
                   icon: const Icon(Icons.arrow_back_ios),
                 ),
                 const Text(
-                  'Pesan',
+                  'Chat',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.w800,

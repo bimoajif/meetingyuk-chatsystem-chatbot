@@ -24,7 +24,7 @@ class SelectMerchantScreen extends ConsumerWidget {
           foregroundColor: Colors.black,
           centerTitle: false,
           title: const Text(
-            'Tambah Pesan',
+            'Start New Chat',
             style: TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
           ),
         ),
