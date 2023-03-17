@@ -79,6 +79,7 @@ flutter:
     - assets/images/chat-background.png
     - assets/images/landing-background.png
     - assets/images/meetingyuk-logo-white.png
+    - assets/images/chatbot-pp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

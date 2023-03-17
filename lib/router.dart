@@ -2,13 +2,14 @@ import 'package:chatbot_meetingyuk/common/widgets/error_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/login_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/otp_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/user_information_screen.dart';
+import 'package:chatbot_meetingyuk/features/chatbot/screen/chatbot_screen.dart';
 import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merchant_screen.dart';
 import 'package:chatbot_meetingyuk/features/chat/screens/chat_screen.dart';
 import 'package:chatbot_meetingyuk/screen/home_chat.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
-  switch(settings.name) {
+  switch (settings.name) {
     case LoginScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const LoginScreen(),
@@ -42,12 +43,14 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           uid: uid,
         ),
       );
+    case ChatbotScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => ChatbotScreen(),
+      );
     default:
       return MaterialPageRoute(
-        builder: (context) => const Scaffold(
-          body: ErrorScreen(error: "this page doesn't exist!"),
-        )
-      );
-    
+          builder: (context) => const Scaffold(
+                body: ErrorScreen(error: "this page doesn't exist!"),
+              ));
   }
 }

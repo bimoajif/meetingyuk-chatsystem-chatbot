@@ -1,5 +1,6 @@
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
+import 'package:chatbot_meetingyuk/features/chatbot/screen/chatbot_screen.dart';
 import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merchant_screen.dart';
 import 'package:chatbot_meetingyuk/my_flutter_app_icons.dart';
 import 'package:flutter/material.dart';
@@ -137,7 +138,7 @@ class _HomeChatState extends ConsumerState<HomeChat>
             labelStyle: const TextStyle(
               fontSize: 18.0,
             ),
-            onTap: () => logger.v('icon 1 pressed'),
+            onTap: () => Navigator.pushNamed(context, ChatbotScreen.routeName)
           )
         ],
       ),

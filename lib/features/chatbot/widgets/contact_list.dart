@@ -1,6 +1,6 @@
 import 'package:chatbot_meetingyuk/common/widgets/loader.dart';
 import 'package:chatbot_meetingyuk/features/chat/controller/chat_controller.dart';
-import 'package:chatbot_meetingyuk/features/chat/screens/chat_screen.dart';
+import 'package:chatbot_meetingyuk/features/chatbot/screen/chatbot_screen.dart';
 import 'package:chatbot_meetingyuk/models/chat_contact.dart';
 import 'package:flutter/material.dart';
 import 'package:chatbot_meetingyuk/colors.dart';
@@ -30,7 +30,7 @@ class ContactList extends ConsumerWidget {
                     onTap: () {
                       Navigator.pushNamed(
                         context,
-                        ChatScreen.routeName,
+                        ChatbotScreen.routeName,
                         arguments: {
                           'profilePic': chatContactData.profilePic,
                           'name': chatContactData.name,
