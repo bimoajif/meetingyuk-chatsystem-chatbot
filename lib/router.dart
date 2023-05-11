@@ -45,7 +45,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case ChatbotScreen.routeName:
       return MaterialPageRoute(
-        builder: (context) => ChatbotScreen(),
+        builder: (context) => const ChatbotScreen(),
       );
     default:
       return MaterialPageRoute(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChatbotAppbar extends StatelessWidget {
-  const ChatbotAppbar({super.key,});
+  const ChatbotAppbar({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,9 @@ class ChatbotAppbar extends StatelessWidget {
             backgroundImage: AssetImage('assets/images/chatbot-pp.png'),
           ),
         ),
-        const SizedBox(width: 10,),
+        const SizedBox(
+          width: 10,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -23,19 +27,15 @@ class ChatbotAppbar extends StatelessWidget {
                 Text(
                   'MeetingYuk Chatbot',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16.0
-                  ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16.0),
                 ),
               ],
             ),
             const Text(
               'Personal Assistant',
-              style: TextStyle(
-                fontSize: 14.0,
-                color: Colors.white30
-              ),
+              style: TextStyle(fontSize: 14.0, color: Colors.white30),
             ),
           ],
         )
