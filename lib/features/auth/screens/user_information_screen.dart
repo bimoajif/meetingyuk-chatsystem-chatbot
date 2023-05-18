@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:basic_utils/basic_utils.dart';
+import 'package:chatbot_meetingyuk/common/utils/rsa_encryption.dart';
 import 'package:chatbot_meetingyuk/common/widgets/splash_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/controller/auth_controller.dart';
 import 'package:chatbot_meetingyuk/screen/home_chat.dart';
@@ -21,10 +23,15 @@ class _UserInformationScreenState extends ConsumerState<UserInformationScreen> {
   void storeUserData() async {
     String name = 'John Doe';
 
-    if (name.isNotEmpty) {
+    final e2ee = E2EE_RSA();
+    final keyPair = e2ee.generateRSAKeyPair();
+
+    String publicKey = extractKeyString(CryptoUtils.encodeRSAPublicKeyToPem(keyPair.publicKey as RSAPublicKey));
+
+    if (name.isNotEmpty && publicKey.isNotEmpty) {
       ref
           .read(authControllerProvider)
-          .saveUserDataToFirebase(context, name, image);
+          .saveUserDataToFirebase(context, name, publicKey, image);
     }
   }
 

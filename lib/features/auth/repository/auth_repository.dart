@@ -69,6 +69,7 @@ class AuthRepository {
     required File? profilePic,
     required ProviderRef ref,
     required BuildContext context,
+    required String publicKey,
   }) async {
     try {
       String uid = auth.currentUser!.uid;
@@ -80,7 +81,8 @@ class AuthRepository {
           uid: uid,
           profilePic: photoUrl,
           isOnline: true,
-          phoneNumber: auth.currentUser!.phoneNumber!);
+          phoneNumber: auth.currentUser!.phoneNumber!,
+          publicKey: publicKey);
 
       await firestore.collection('users').doc(uid).set(user.toMap());
     } catch (e) {

@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:basic_utils/basic_utils.dart';
 import 'package:chatbot_meetingyuk/common/enums/message_enum.dart';
 import 'package:chatbot_meetingyuk/common/repository/common_firebase_storage_repository.dart';
+import 'package:chatbot_meetingyuk/common/utils/rsa_encryption.dart';
 import 'package:chatbot_meetingyuk/common/utils/utils.dart';
 import 'package:chatbot_meetingyuk/models/chat_contact.dart';
 import 'package:chatbot_meetingyuk/models/message.dart';
@@ -80,6 +81,15 @@ class ChatRepository {
     DateTime timeSent,
     String receiverId,
   ) async {
+    final e2ee = E2EE_RSA();
+
+    var publicKey = receiverUserData.publicKey;
+
+    final encryptedText = e2ee.encrypter(
+      CryptoUtils.rsaPublicKeyFromPem(publicKey),
+      text,
+    );
+
     var receiverChatContact = ChatContact(
       name: senderUserData.name,
       profilePic: senderUserData.profilePic,
@@ -93,9 +103,7 @@ class ChatRepository {
         .doc(receiverId)
         .collection('chats')
         .doc(auth.currentUser!.uid)
-        .set(
-          receiverChatContact.toMap(),
-        );
+        .set(receiverChatContact.toMap());
 
     var senderChatContact = ChatContact(
       name: receiverUserData.name,
@@ -110,14 +118,12 @@ class ChatRepository {
         .doc(auth.currentUser!.uid)
         .collection('chats')
         .doc(receiverId)
-        .set(
-          senderChatContact.toMap(),
-        );
+        .set(senderChatContact.toMap());
   }
 
   _saveMessageToMessageSubcollection({
     required String receiverId,
-    required String text,
+    required String encryptedText,
     required DateTime timeSent,
     required String messageId,
     required String username,
@@ -127,7 +133,7 @@ class ChatRepository {
     final message = Message(
       senderId: auth.currentUser!.uid,
       receiverId: receiverId,
-      text: text,
+      text: encryptedText,
       type: messageType,
       timeSent: timeSent,
       messageId: messageId,
@@ -141,9 +147,7 @@ class ChatRepository {
         .doc(receiverId)
         .collection('messages')
         .doc(messageId)
-        .set(
-          message.toMap(),
-        );
+        .set(message.toMap());
 
     await firestore
         .collection('users')
@@ -152,9 +156,7 @@ class ChatRepository {
         .doc(auth.currentUser!.uid)
         .collection('messages')
         .doc(messageId)
-        .set(
-          message.toMap(),
-        );
+        .set(message.toMap());
   }
 
   void sendTextMessage({
@@ -164,6 +166,7 @@ class ChatRepository {
     required UserModel senderUser,
   }) async {
     try {
+      final e2ee = E2EE_RSA();
       var timeSent = DateTime.now();
       var messageId = const Uuid().v1();
       UserModel receiverUserData;
@@ -172,17 +175,24 @@ class ChatRepository {
           await firestore.collection('users').doc(receiverId).get();
       receiverUserData = UserModel.fromMap(userDataMap.data()!);
 
+      final publicKey = addHeaderFooter(receiverUserData.publicKey);
+
+      final encryptedText = e2ee.encrypter(
+        CryptoUtils.rsaPublicKeyFromPem(publicKey),
+        text,
+      );
+
       _saveDataToContactsSubcollection(
         senderUser,
         receiverUserData,
-        text,
+        encryptedText,
         timeSent,
         receiverId,
       );
 
       _saveMessageToMessageSubcollection(
         receiverId: receiverId,
-        text: text,
+        encryptedText: encryptedText,
         timeSent: timeSent,
         messageId: messageId,
         username: senderUser.name,
@@ -206,11 +216,12 @@ class ChatRepository {
       var timeSent = DateTime.now();
       var messageId = const Uuid().v1();
 
-      String imageUrl =
-          await ref.read(commonFirebaseStorageRepositoryProvider).storeFileToFirebase(
-                'chat/${messageEnum.type}/${senderUserData.uid}/$receiverId/$messageId',
-                file,
-              );
+      String imageUrl = await ref
+          .read(commonFirebaseStorageRepositoryProvider)
+          .storeFileToFirebase(
+            'chat/${messageEnum.type}/${senderUserData.uid}/$receiverId/$messageId',
+            file,
+          );
 
       UserModel receiverUserData;
       var userDataMap =
@@ -246,7 +257,7 @@ class ChatRepository {
 
       _saveMessageToMessageSubcollection(
         receiverId: receiverId,
-        text: imageUrl,
+        encryptedText: imageUrl,
         timeSent: timeSent,
         messageId: messageId,
         username: senderUserData.name,

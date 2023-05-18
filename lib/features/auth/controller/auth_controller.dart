@@ -19,32 +19,53 @@ class AuthController {
   final AuthRepository authRepository;
   final ProviderRef ref;
 
-  AuthController({required this.authRepository, required this.ref});
+  AuthController({
+    required this.authRepository,
+    required this.ref,
+  });
 
   Future<UserModel?> getUserData() async {
     UserModel? user = await authRepository.getCurrentUserData();
     return user;
   }
 
-  void signInWithPhone(BuildContext context, String phoneNumber) {
-    authRepository.signInWithPhone(context, phoneNumber);
+  void signInWithPhone(
+    BuildContext context,
+    String phoneNumber,
+  ) {
+    authRepository.signInWithPhone(
+      context,
+      "+62$phoneNumber",
+    );
   }
 
-  void verifyOTP(BuildContext context, String verificationId, String userOTP) {
+  void verifyOTP(
+    BuildContext context,
+    String verificationId,
+    String userOTP,
+  ) {
     authRepository.verifyOTP(
-        context: context, verificationId: verificationId, userOTP: userOTP);
+      context: context,
+      verificationId: verificationId,
+      userOTP: userOTP,
+    );
   }
 
   void saveUserDataToFirebase(
-      BuildContext context, String name, File? profilePic) {
+    BuildContext context,
+    String name,
+    String publicKey,
+    File? profilePic,
+  ) {
     authRepository.saveUserDataToFirebase(
-        name: name, 
-        profilePic: profilePic, 
-        ref: ref, 
-        context: context
-      );
+      name: name,
+      profilePic: profilePic,
+      publicKey: publicKey,
+      ref: ref,
+      context: context,
+    );
   }
-  
+
   Stream<UserModel> userDataById(String userId) {
     return authRepository.userData(userId);
   }

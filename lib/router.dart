@@ -2,7 +2,6 @@ import 'package:chatbot_meetingyuk/common/widgets/error_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/login_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/otp_screen.dart';
 import 'package:chatbot_meetingyuk/features/auth/screens/user_information_screen.dart';
-import 'package:chatbot_meetingyuk/features/chatbot/screen/chatbot_screen.dart';
 import 'package:chatbot_meetingyuk/features/select_merchant/screens/select_merchant_screen.dart';
 import 'package:chatbot_meetingyuk/features/chat/screens/chat_screen.dart';
 import 'package:chatbot_meetingyuk/screen/home_chat.dart';
@@ -42,10 +41,6 @@ Route<dynamic> generateRoute(RouteSettings settings) {
           name: name,
           uid: uid,
         ),
-      );
-    case ChatbotScreen.routeName:
-      return MaterialPageRoute(
-        builder: (context) => const ChatbotScreen(),
       );
     default:
       return MaterialPageRoute(

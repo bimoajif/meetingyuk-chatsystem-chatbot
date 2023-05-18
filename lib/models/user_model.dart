@@ -4,13 +4,16 @@ class UserModel {
   final String profilePic;
   final bool isOnline;
   final String phoneNumber;
+  final String publicKey;
 
-  UserModel(
-    {required this.name,
+  UserModel({
+    required this.name,
     required this.uid,
     required this.profilePic,
     required this.isOnline,
-    required this.phoneNumber});
+    required this.phoneNumber,
+    required this.publicKey,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,7 +21,8 @@ class UserModel {
       'uid': uid,
       'profilePic': profilePic,
       'isOnline': isOnline,
-      'phoneNumber': phoneNumber
+      'phoneNumber': phoneNumber,
+      'publicKey': publicKey,
     };
   }
 
@@ -28,7 +32,8 @@ class UserModel {
       uid: map['uid'] ?? '',
       profilePic: map['profilePic'] ?? '',
       isOnline: map['isOnline'] ?? '',
-      phoneNumber: map['phoneNumber'] ?? ''
+      phoneNumber: map['phoneNumber'] ?? '',
+      publicKey: map['publicKey'] ?? '',
     );
   }
 }
