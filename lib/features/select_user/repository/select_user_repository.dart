@@ -5,22 +5,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final selectMerchantRepositoryProvider = Provider(
-  (ref) => SelectMerchantRepository(firestore: FirebaseFirestore.instance),
+final selectUserRepositoryProvider = Provider(
+  (ref) => SelectUserRepository(firestore: FirebaseFirestore.instance),
 );
 
-class SelectMerchantRepository {
+class SelectUserRepository {
   final FirebaseFirestore firestore;
   final _usersCollection = FirebaseFirestore.instance.collection('users');
 
-  SelectMerchantRepository({required this.firestore});
+  SelectUserRepository({required this.firestore});
 
-  Future<List<UserModel>> getMerchants() async {
-    List<UserModel> merchants= [];
+  Future<List<UserModel>> getUsers() async {
+    List<UserModel> users= [];
     try {
       final querySnapshot = await _usersCollection.orderBy('name').get();
 
-      merchants = querySnapshot.docs.map((doc) {
+      users = querySnapshot.docs.map((doc) {
         final data = doc.data();
         return UserModel.fromMap(data);
       }).toList();
@@ -28,23 +28,23 @@ class SelectMerchantRepository {
     } catch(e) {
       debugPrint(e.toString());
     }
-    return merchants;
+    return users;
   }
 
-  void selectMerchant(BuildContext context, String desiredUid) async {
+  void selectUser(BuildContext context, String desiredUid) async {
     try {
-      final merchantQuerySnapshot = await firestore.collection('users').where('uid', isEqualTo: desiredUid).get();
+      final userQuerySnapshot = await firestore.collection('users').where('uid', isEqualTo: desiredUid).get();
 
-      if(merchantQuerySnapshot.docs.isEmpty) {
+      if(userQuerySnapshot.docs.isEmpty) {
         throw Exception('No User Found!');
       }
 
-      final merchantData = UserModel.fromMap(merchantQuerySnapshot.docs.first.data());
+      final userData = UserModel.fromMap(userQuerySnapshot.docs.first.data());
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, ChatScreen.routeName, arguments: {
-        'profilePic' : merchantData.profilePic,
-        'name' : merchantData.name,
-        'uid': merchantData.uid
+        'profilePic' : userData.profilePic,
+        'name' : userData.name,
+        'uid': userData.uid
       });
     } catch(e) {
       showSnackbar(context: context, content: e.toString());
