@@ -17,6 +17,7 @@ class HomeChat extends ConsumerStatefulWidget {
 
 class _HomeChatState extends ConsumerState<HomeChat>
     with WidgetsBindingObserver {
+      
   @override
   void initState() {
     // ignore: todo
@@ -129,16 +130,15 @@ class _HomeChatState extends ConsumerState<HomeChat>
             },
           ),
           SpeedDialChild(
-            child: const Icon(
-              CustomIcon.chatbotIcon,
-              size: 32.0,
-            ),
-            label: 'Chatbot',
-            labelStyle: const TextStyle(
-              fontSize: 18.0,
-            ),
-            onTap: () {}
-          )
+              child: const Icon(
+                CustomIcon.chatbotIcon,
+                size: 32.0,
+              ),
+              label: 'Chatbot',
+              labelStyle: const TextStyle(
+                fontSize: 18.0,
+              ),
+              onTap: () {})
         ],
       ),
     );

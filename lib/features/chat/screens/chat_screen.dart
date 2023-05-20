@@ -12,11 +12,12 @@ class ChatScreen extends ConsumerWidget {
   final String profilePic;
   final String name;
   final String uid;
-  const ChatScreen(
-      {super.key,
-      required this.profilePic,
-      required this.name,
-      required this.uid});
+  const ChatScreen({
+    super.key,
+    required this.profilePic,
+    required this.name,
+    required this.uid,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,9 +48,10 @@ class ChatScreen extends ConsumerWidget {
         body: Container(
           constraints: const BoxConstraints.expand(),
           decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/chat-background.png'),
-                  fit: BoxFit.cover)),
+            image: DecorationImage(
+                image: AssetImage('assets/images/chat-background.png'),
+                fit: BoxFit.cover),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:pointycastle/export.dart';
 import 'package:basic_utils/basic_utils.dart';
 
+// ignore: camel_case_types
 class E2EE_RSA {
   AsymmetricKeyPair<PublicKey, PrivateKey> generateRSAKeyPair() {
     final secureRandom = FortunaRandom();
@@ -61,21 +62,25 @@ String readFile(path) {
   }
 }
 
-String extractKeyString(String publicKey) {
+String extractKeyString(String keyString) {
   final items = <String>[
     '\n',
     '-----BEGIN PUBLIC KEY-----',
     '-----END PUBLIC KEY-----',
+    '-----BEGIN PRIVATE KEY-----',
+    '-----END PRIVATE KEY-----',
   ];
   for (var i = 0; i < items.length; i++) {
-    publicKey = publicKey.replaceAll(items[i], '');
+    keyString = keyString.replaceAll(items[i], '');
   }
-  return publicKey;
+  return keyString;
 }
 
-String addHeaderFooter(String keyString) {
-  const header = '-----BEGIN PUBLIC KEY-----';
-  const footer = '-----END PUBLIC KEY-----';
+String addHeaderFooter(String keyString, bool isPublicKey) {
+  const pubHeader = '-----BEGIN PUBLIC KEY-----';
+  const pubFooter = '-----END PUBLIC KEY-----';
+  const privHeader = '-----BEGIN PRIVATE KEY-----';
+  const privFooter = '-----END PRIVATE KEY-----';
 
   final formattedKey = StringBuffer();
 
@@ -85,5 +90,5 @@ String addHeaderFooter(String keyString) {
     formattedKey.write('\n');
   }
 
-  return '$header\n$formattedKey$footer';
+  return isPublicKey == true ? '$pubHeader\n$formattedKey$pubFooter' : '$privHeader\n$formattedKey$privFooter';
 }

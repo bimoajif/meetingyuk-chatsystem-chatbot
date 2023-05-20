@@ -24,6 +24,7 @@ class ContactList extends ConsumerWidget {
             itemCount: snapshot.data!.length,
             itemBuilder: ((context, index) {
               var chatContactData = snapshot.data![index];
+              // var timeSent = DateFormat('Hm').format(messageData.timeSent);
               return Column(
                 children: [
                   InkWell(
@@ -48,8 +49,9 @@ class ContactList extends ConsumerWidget {
                           height: 50.0,
                           width: 50.0,
                           child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(chatContactData.profilePic)),
+                            backgroundImage:
+                                NetworkImage(chatContactData.profilePic),
+                          ),
                         ),
                         title: Text(
                           chatContactData.name,

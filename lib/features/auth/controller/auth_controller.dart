@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:chatbot_meetingyuk/features/auth/repository/auth_repository.dart';
+import 'package:chatbot_meetingyuk/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../../../models/user_model.dart';
 
 final authControllerProvider = Provider((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
@@ -61,6 +60,19 @@ class AuthController {
       name: name,
       profilePic: profilePic,
       publicKey: publicKey,
+      ref: ref,
+      context: context,
+    );
+  }
+
+  void saveKeyPair(
+    BuildContext context,
+    String publicKey,
+    String privateKey,
+  ) {
+    authRepository.saveKeyPair(
+      publicKey: publicKey,
+      privateKey: privateKey,
       ref: ref,
       context: context,
     );

@@ -28,12 +28,18 @@ class ChatRepository {
   });
 
   Stream<List<ChatContact>> getChatContact() {
+    final e2ee = E2EE_RSA();
     return firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
         .collection('chats')
         .snapshots()
         .asyncMap((event) async {
+      final keyPair = await firestore
+          .collection('keypair')
+          .doc(auth.currentUser!.uid)
+          .get();
+      final strPrivateKey = keyPair.data()?['privateKey'] as String;
       List<ChatContact> contacts = [];
       for (var document in event.docs) {
         var chatContact = ChatContact.fromMap(document.data());
@@ -42,21 +48,38 @@ class ChatRepository {
             .doc(chatContact.contactId)
             .get();
         var user = UserModel.fromMap(userData.data()!);
-        contacts.add(
-          ChatContact(
-            name: user.name,
-            profilePic: user.profilePic,
-            contactId: user.uid,
-            timeSent: chatContact.timeSent,
-            lastMessage: chatContact.lastMessage,
-          ),
-        );
+        if (chatContact.lastMessage == '📷 Photo' || chatContact.lastMessage == '📸 Video' || chatContact.lastMessage == '🎵 Audio' || chatContact.lastMessage == 'GIF') {
+          contacts.add(
+            ChatContact(
+              name: user.name,
+              profilePic: user.profilePic,
+              contactId: user.uid,
+              timeSent: chatContact.timeSent,
+              lastMessage: chatContact.lastMessage,
+            ),
+          );
+        } else {
+          var decryptedText = e2ee.decrypter(
+              CryptoUtils.rsaPrivateKeyFromPem(
+                  addHeaderFooter(strPrivateKey, false)),
+              chatContact.lastMessage);
+          contacts.add(
+            ChatContact(
+              name: user.name,
+              profilePic: user.profilePic,
+              contactId: user.uid,
+              timeSent: chatContact.timeSent,
+              lastMessage: decryptedText,
+            ),
+          );
+        }
       }
       return contacts;
     });
   }
 
   Stream<List<Message>> getChatStream(String receiverId) {
+    final e2ee = E2EE_RSA();
     return firestore
         .collection('users')
         .doc(auth.currentUser!.uid)
@@ -65,10 +88,40 @@ class ChatRepository {
         .collection('messages')
         .orderBy('timeSent')
         .snapshots()
-        .map((event) {
+        .asyncMap((event) async {
+      final keyPair = await firestore
+          .collection('keypair')
+          .doc(auth.currentUser!.uid)
+          .get();
+      final strPrivateKey = keyPair.data()?['privateKey'] as String;
       List<Message> messages = [];
       for (var document in event.docs) {
-        messages.add(Message.fromMap(document.data()));
+        final message = Message.fromMap(document.data());
+        if (message.type != MessageEnum.TEXT) {
+          messages.add(Message(
+            senderId: message.senderId,
+            receiverId: message.receiverId,
+            text: message.text,
+            type: message.type,
+            timeSent: message.timeSent,
+            messageId: message.messageId,
+            isSeen: message.isSeen,
+          ));
+        } else {
+          var decryptedText = e2ee.decrypter(
+              CryptoUtils.rsaPrivateKeyFromPem(
+                  addHeaderFooter(strPrivateKey, false)),
+              message.text);
+          messages.add(Message(
+            senderId: message.senderId,
+            receiverId: message.receiverId,
+            text: decryptedText,
+            type: message.type,
+            timeSent: message.timeSent,
+            messageId: message.messageId,
+            isSeen: message.isSeen,
+          ));
+        }
       }
       return messages;
     });
@@ -77,25 +130,17 @@ class ChatRepository {
   void _saveDataToContactsSubcollection(
     UserModel senderUserData,
     UserModel receiverUserData,
-    String text,
+    String senderText,
+    String receiverText,
     DateTime timeSent,
     String receiverId,
   ) async {
-    final e2ee = E2EE_RSA();
-
-    var publicKey = receiverUserData.publicKey;
-
-    final encryptedText = e2ee.encrypter(
-      CryptoUtils.rsaPublicKeyFromPem(publicKey),
-      text,
-    );
-
     var receiverChatContact = ChatContact(
       name: senderUserData.name,
       profilePic: senderUserData.profilePic,
       contactId: senderUserData.uid,
       timeSent: timeSent,
-      lastMessage: text,
+      lastMessage: receiverText,
     );
 
     await firestore
@@ -110,7 +155,7 @@ class ChatRepository {
       profilePic: receiverUserData.profilePic,
       contactId: receiverUserData.uid,
       timeSent: timeSent,
-      lastMessage: text,
+      lastMessage: senderText,
     );
 
     await firestore
@@ -123,17 +168,27 @@ class ChatRepository {
 
   _saveMessageToMessageSubcollection({
     required String receiverId,
-    required String encryptedText,
+    required String senderText,
+    required String receiverText,
     required DateTime timeSent,
     required String messageId,
     required String username,
     required receiverUsername,
     required MessageEnum messageType,
   }) async {
-    final message = Message(
+    final senderMessage = Message(
       senderId: auth.currentUser!.uid,
       receiverId: receiverId,
-      text: encryptedText,
+      text: senderText,
+      type: messageType,
+      timeSent: timeSent,
+      messageId: messageId,
+      isSeen: false,
+    );
+    final receiverMessage = Message(
+      senderId: auth.currentUser!.uid,
+      receiverId: receiverId,
+      text: receiverText,
       type: messageType,
       timeSent: timeSent,
       messageId: messageId,
@@ -147,7 +202,7 @@ class ChatRepository {
         .doc(receiverId)
         .collection('messages')
         .doc(messageId)
-        .set(message.toMap());
+        .set(senderMessage.toMap());
 
     await firestore
         .collection('users')
@@ -156,7 +211,7 @@ class ChatRepository {
         .doc(auth.currentUser!.uid)
         .collection('messages')
         .doc(messageId)
-        .set(message.toMap());
+        .set(receiverMessage.toMap());
   }
 
   void sendTextMessage({
@@ -169,30 +224,45 @@ class ChatRepository {
       final e2ee = E2EE_RSA();
       var timeSent = DateTime.now();
       var messageId = const Uuid().v1();
+      UserModel senderUserData;
       UserModel receiverUserData;
 
+      var senderDataMap =
+          await firestore.collection('users').doc(auth.currentUser!.uid).get();
       var userDataMap =
           await firestore.collection('users').doc(receiverId).get();
+      senderUserData = UserModel.fromMap(senderDataMap.data()!);
       receiverUserData = UserModel.fromMap(userDataMap.data()!);
 
-      final publicKey = addHeaderFooter(receiverUserData.publicKey);
-
-      final encryptedText = e2ee.encrypter(
-        CryptoUtils.rsaPublicKeyFromPem(publicKey),
-        text,
+      final senderPublicKey = CryptoUtils.rsaPublicKeyFromPem(
+        addHeaderFooter(
+          senderUserData.publicKey,
+          true,
+        ),
       );
+      final receiverPublicKey = CryptoUtils.rsaPublicKeyFromPem(
+        addHeaderFooter(
+          receiverUserData.publicKey,
+          true,
+        ),
+      );
+
+      String senderText = e2ee.encrypter(senderPublicKey, text);
+      String receiverText = e2ee.encrypter(receiverPublicKey, text);
 
       _saveDataToContactsSubcollection(
         senderUser,
         receiverUserData,
-        encryptedText,
+        senderText,
+        receiverText,
         timeSent,
         receiverId,
       );
 
       _saveMessageToMessageSubcollection(
         receiverId: receiverId,
-        encryptedText: encryptedText,
+        senderText: senderText,
+        receiverText: receiverText,
         timeSent: timeSent,
         messageId: messageId,
         username: senderUser.name,
@@ -251,13 +321,15 @@ class ChatRepository {
         senderUserData,
         receiverUserData,
         contactMessage,
+        contactMessage,
         timeSent,
         receiverId,
       );
 
       _saveMessageToMessageSubcollection(
         receiverId: receiverId,
-        encryptedText: imageUrl,
+        senderText: imageUrl,
+        receiverText: imageUrl,
         timeSent: timeSent,
         messageId: messageId,
         username: senderUserData.name,
