@@ -127,16 +127,16 @@ class _HomeChatState extends ConsumerState<HomeChat>
               Navigator.pushNamed(context, SelectUserScreen.routeName);
             },
           ),
-          SpeedDialChild(
-              child: const Icon(
-                CustomIcon.chatbotIcon,
-                size: 32.0,
-              ),
-              label: 'Chatbot',
-              labelStyle: const TextStyle(
-                fontSize: 18.0,
-              ),
-              onTap: () {})
+          // SpeedDialChild(
+          //     child: const Icon(
+          //       CustomIcon.chatbotIcon,
+          //       size: 32.0,
+          //     ),
+          //     label: 'Chatbot',
+          //     labelStyle: const TextStyle(
+          //       fontSize: 18.0,
+          //     ),
+          //     onTap: () {})
         ],
       ),
     );
